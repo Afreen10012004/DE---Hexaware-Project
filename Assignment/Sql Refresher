@@ -1,0 +1,94 @@
+# sql refresher
+
+create database python_training;
+use python_training
+drop table Orders;
+
+create table Orders(
+ordID INT,
+prodname VARCHAR(50),
+price INT,
+qty INT
+);
+
+
+insert into Orders(ordID , prodname, price, qty) values (1,'apple',300, 4 );
+insert into Orders(ordID , prodname, price, qty) values (2,'banana',450, 6 );
+insert into Orders(ordID , prodname, price, qty) values (3,'apple',350, 5);
+insert into Orders(ordID , prodname, price, qty) values (4,'pears',500, 6 );
+insert into Orders(ordID , prodname, price, qty) values (5,'banana',400, 8 );
+insert into Orders(ordID , prodname, price, qty) values (6,'apple',500, 7 );
+
+drop table customers;
+
+create table customers(
+cusid int primary key,
+cusname VARCHAR(50),
+ordID int 
+);
+
+insert into customers(cusid,cusname,ordID) values (11,'afreen', 2);
+insert into customers(cusid,cusname,ordID) values (12,'priya', 4);
+insert into customers(cusid,cusname,ordID) values (13,'Dhivakar', 6);
+select *from Orders;
+select *from customers;
+
+
+select * from Orders where ordID = 4;
+
+select * from Orders where prodname='banana' and qty>2;
+
+select * from Orders where prodname='banana' or qty>5;
+
+select * from Orders where qty between 4 and 6;
+
+select * from Orders where not prodname='banana';
+
+select * from Orders where prodname in ('banana', 'apple');
+
+select * from Orders where prodname like '%apple%';
+
+select * from Orders ORDER BY qty asc;
+
+select * from Orders ORDER BY qty desc;
+
+
+update Orders set prodname='grapes' where ordID=1 ;
+
+delete from Orders where ordID=6;
+
+select Top 3 * from Orders;
+
+select count(distinct prodname) from Orders; 
+
+select prodname from orders group by prodname;
+
+select prodname,sum(qty) as total_qty from orders group by prodname;
+
+select prodname, count(*) as count_product from orders group by prodname;
+
+select prodname, AVG(price) as average_price from orders group by prodname;
+
+select prodname, max(price) as max_price , min(price) as mini_price from orders group by prodname;
+
+select sum(price)as total_price from orders;
+
+select prodname, avg(price) as avg_price from orders group by prodname having avg(price)>450;
+
+select prodname, sum(price) as total_price from orders group by prodname having sum(price)> 800;
+
+select prodname, count(*) as count_product from orders group by prodname having count(*)> 1; 
+
+select orders.ordID, prodname,cusname from orders inner join customers on orders.ordID=customers.ordID;
+
+select orders.ordID, cusname,prodname,price from orders inner join customers on orders.ordID=customers.ordID;
+
+select customers.cusid, customers.cusname, orders.prodname, orders.price from customers left join orders on customers.ordID=orders.ordID;
+
+insert into customers(cusid,cusname,ordID) values( 14, 'kar', 9);
+
+select customers.cusid, customers.cusname, orders.prodname, orders.price from customers Right join orders on customers.ordID=orders.ordID;
+
+insert into Orders(ordID , prodname, price, qty) values (7,'mango',500, 7);
+
+select customers.cusid, customers.cusname, orders.prodname, orders.price from customers FULL OUTER join orders on customers.ordID=orders.ordID;
